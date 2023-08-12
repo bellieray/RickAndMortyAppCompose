@@ -14,7 +14,11 @@ dependencyResolutionManagement {
 }
 rootProject.name = "RickyAndMortyAppCompose"
 include ':app'
-include ':common'
-include ':common:data'
-include ':common:data'
-include ':common:domain'
+include ':core:common'
+include ':core:data'
+include ':core:domain'
+include ':feature:characters'
+include ':feature:detail'
+include ':feature:search'
+include ':core:model'
+include ':core:network'
