@@ -54,8 +54,13 @@ android {
 }
 dependencies {
     implementation(project(":core:model"))
+    implementation(project(":core:common"))
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
+
+    //coroutines
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
 
     // Retrofit
     implementation(libs.retrofit.core)
