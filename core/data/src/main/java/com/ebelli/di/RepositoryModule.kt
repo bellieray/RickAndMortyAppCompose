@@ -10,8 +10,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
     @Binds
-    fun bindsCharacterRepository(characterRemoteDataSource: CharacterRemoteDataSource) : CharacterRepository =
-        CharacterRepositoryImpl(characterRemoteDataSource)
+   abstract fun bindsCharacterRepository(characterRepositoryImpl: CharacterRepositoryImpl) : CharacterRepository
 }

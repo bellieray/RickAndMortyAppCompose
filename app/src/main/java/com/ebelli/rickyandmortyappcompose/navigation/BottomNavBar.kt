@@ -18,7 +18,7 @@ enum class BottomNavBar(
         selectedIcon = AppIcons.Character,
         unselectedIcon = AppIcons.CharacterBordered,
         iconTextId = charactersR.string.characters,
-        titleTextId = com.ebelli.rickyandmortyappcompose.R.string.app_name,
+        titleTextId = charactersR.string.characters,
     ),
     FAVORITES(
         selectedIcon = AppIcons.Favorite,

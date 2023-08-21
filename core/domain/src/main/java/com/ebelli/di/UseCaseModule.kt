@@ -6,12 +6,13 @@ import com.ebelli.usecase.character.GetCharacterUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UseCaseModule {
+abstract class UseCaseModule {
     @Binds
-    fun bindsGetAllCharactersUseCase(characterRepository: CharacterRepository): GetCharacterUseCase =
-        GetCharacterUseCaseImpl(characterRepository)
+    @ViewModelScoped
+    abstract fun bindsGetAllCharactersUseCase(useCaseImpl: GetCharacterUseCaseImpl): GetCharacterUseCase
 }

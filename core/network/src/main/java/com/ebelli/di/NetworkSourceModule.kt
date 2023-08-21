@@ -10,8 +10,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkSourceModule {
+abstract class NetworkSourceModule {
     @Binds
-    fun bindsCharacterNetworkDataSource(rickyAndMortyService: RickyAndMortyService) : CharacterRemoteDataSource =
-        CharacterRemoteDataSourceImpl(rickyAndMortyService)
+    abstract fun bindsCharacterNetworkDataSource(remoteDataSourceImpl: CharacterRemoteDataSourceImpl) : CharacterRemoteDataSource
 }

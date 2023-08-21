@@ -1,4 +1,4 @@
-package com.ebelli
+package com.ebelli.navigation
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,12 +14,11 @@ import org.w3c.dom.CharacterData
 
 
 @Composable
-fun CharactersScreen(
-    viewModel: CharactersViewModel,
-    onItemClicked: (CharacterData) -> Unit
+fun FavoritesScreen(
+
 ) {
     val scaffoldState = rememberScaffoldState()
-    val viewState = viewModel.viewState.collectAsState().value
+  //  val viewState = viewModel.viewState.collectAsState().value
 
     RickAndMortyScaffold(
         modifier = Modifier.fillMaxSize(),

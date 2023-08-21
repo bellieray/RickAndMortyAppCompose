@@ -3,10 +3,10 @@ package com.ebelli.result
 import retrofit2.Response
 
 suspend fun <T> apiCall(response: suspend () -> Response<T>): NetworkResult<T> {
-    val response = response()
-    return if (response.isSuccessful) {
-        NetworkResult.Success(response.body())
+    val request = response()
+    return if (request.isSuccessful) {
+        NetworkResult.Success(request.body())
     } else {
-        NetworkResult.Failed(response.code())
+        NetworkResult.Failed(request.code())
     }
 }

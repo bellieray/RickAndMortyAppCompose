@@ -14,12 +14,11 @@ import org.w3c.dom.CharacterData
 
 
 @Composable
-fun CharactersScreen(
-    viewModel: CharactersViewModel,
-    onItemClicked: (CharacterData) -> Unit
+fun DetailScreen(
+
 ) {
     val scaffoldState = rememberScaffoldState()
-    val viewState = viewModel.viewState.collectAsState().value
+  //  val viewState = viewModel.viewState.collectAsState().value
 
     RickAndMortyScaffold(
         modifier = Modifier.fillMaxSize(),
