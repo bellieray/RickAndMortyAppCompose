@@ -1,7 +1,10 @@
 package com.ebelli
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -9,9 +12,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.ebelli.component.RickAndMortyScaffold
+import androidx.compose.ui.unit.dp
+import com.ebelli.navigation.CharacterItem
 import org.w3c.dom.CharacterData
-
 
 @Composable
 fun CharactersScreen(
@@ -20,16 +23,27 @@ fun CharactersScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val viewState = viewModel.viewState.collectAsState().value
+    val characters = viewState.characters?.results
 
-    RickAndMortyScaffold(
-        modifier = Modifier.fillMaxSize(),
-        scaffoldState = scaffoldState,
-        content = {
-            Text(text = "Merhaba", modifier = Modifier.fillMaxSize(), color = Color.Cyan)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.Red)
+        ) {
+            LazyColumn(modifier = Modifier.background(color = Color.Yellow)) {
+                characters?.let {
+                    items(characters) { character ->
+                        CharacterItem(character = character)
+                    }
+                }
+            }
         }
-    )
+    }
 }
-
 
 
 @Preview(
@@ -42,4 +56,21 @@ fun CharactersScreen(
     name = "Dark Mode"
 )
 @Composable
-fun DetailContentItemViewPreview() {}
+fun DetailContentItemViewPreview() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.Red)
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .background(color = Color.Yellow)
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(5.dp)
+        ) {
+            items((0..10).toList()) { character ->
+                Text(text = character.toString())
+            }
+        }
+    }
+}

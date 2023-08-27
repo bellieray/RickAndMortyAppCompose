@@ -1,6 +1,6 @@
 package com.ebelli.model
 
-data class CharacterData(
+data class CharacterResponse(
     val info: Info,
-    val results: List<Result>
+    val results: List<Character>
 )

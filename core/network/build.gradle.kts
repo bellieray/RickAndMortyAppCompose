@@ -1,8 +1,9 @@
 @file:Suppress("UnstableApiUsage")
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("com.android.library")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
 }

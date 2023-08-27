@@ -11,8 +11,8 @@ interface RickyAndMortyService {
     suspend fun getLocations(@Query("page") pageNumber: Int): Response<Location>
 
     @GET("character/{id}")
-    suspend fun getCharactersById(@Path("id") id: List<String>): Response<com.ebelli.model.CharacterData>
+    suspend fun getCharactersById(@Path("id") id: List<String>): Response<com.ebelli.model.CharacterResponse>
 
     @GET("character/")
-    suspend fun getAllCharacters(@Query("page") pageNumber: Int): Response<com.ebelli.model.CharacterData>
+    suspend fun getAllCharacters(@Query("page") pageNumber: Int): Response<com.ebelli.model.CharacterResponse>
 }

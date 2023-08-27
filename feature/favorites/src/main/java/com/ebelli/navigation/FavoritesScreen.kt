@@ -17,16 +17,6 @@ import org.w3c.dom.CharacterData
 fun FavoritesScreen(
 
 ) {
-    val scaffoldState = rememberScaffoldState()
-  //  val viewState = viewModel.viewState.collectAsState().value
-
-    RickAndMortyScaffold(
-        modifier = Modifier.fillMaxSize(),
-        scaffoldState = scaffoldState,
-        content = {
-            Text(text = "Merhaba", modifier = Modifier.fillMaxSize(), color = Color.Cyan)
-        }
-    )
 }
 
 

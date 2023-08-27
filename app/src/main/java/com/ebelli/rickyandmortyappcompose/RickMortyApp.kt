@@ -7,5 +7,4 @@ import dagger.hilt.android.HiltAndroidApp
 
 @Stable
 @HiltAndroidApp
-class RickMortyApp : Application() {
-}
+class RickMortyApp : Application()

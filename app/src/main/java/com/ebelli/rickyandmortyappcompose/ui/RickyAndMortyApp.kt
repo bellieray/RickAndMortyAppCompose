@@ -1,30 +1,33 @@
 package com.ebelli.rickyandmortyappcompose.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ebelli.component.RickAndMortyScaffold
+import com.ebelli.rickyandmortyappcompose.navigation.BottomNavBar
+import com.ebelli.rickyandmortyappcompose.navigation.RickyAndMortyBottomBar
 import com.ebelli.rickyandmortyappcompose.navigation.RickyAndMortyNavHost
-import com.ebelli.theme.RickyAndMortyAppComposeTheme
+import com.ebelli.rickyandmortyappcompose.navigation.navigateToBottomNavDestination
 
 @Composable
-fun RickyAndMortyApp() {
-    RickyAndMortyAppComposeTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
+fun RickyAndMortyApp(navController: NavHostController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navController
+        .currentBackStackEntryAsState().value?.destination
+    Column {
+        RickAndMortyScaffold(
+            bottomBar = {
+                RickyAndMortyBottomBar(
+                    destinations = BottomNavBar.values().toList(),
+                    onNavigateToDestination = ::navigateToBottomNavDestination,
+                    currentDestination = currentDestination,
+                    navController = navController
+                )
+            }
         ) {
-            RickyAndMortyNavHost()
+            RickyAndMortyNavHost(navController = navController, it)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    RickyAndMortyAppComposeTheme {
-        RickyAndMortyNavHost()
     }
 }

@@ -1,3 +1,4 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,11 +6,11 @@ plugins {
 
 android {
     namespace = "com.ebelli.rickyandmortyappcompose"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
- //       applicationId = "com.ebelli.rickyandmortyappcompose"
+        applicationId = "com.ebelli.rickyandmortyappcompose"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         multiDexEnabled = true
@@ -83,6 +84,14 @@ dependencies {
     //trace
     implementation(libs.androidx.tracing.tracing)
     implementation(libs.androidx.tracing.ktx)
+
+    //test
+    androidTestImplementation(libs.androidx.compose.ui.test)
+    // debugImplementation(libs.androidx.compose.ui.testManifest)
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+
 
     implementation("androidx.compose.runtime:runtime:1.5.0")
 }

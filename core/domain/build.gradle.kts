@@ -50,6 +50,7 @@ android {
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
+    implementation(project(":core:network"))
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)

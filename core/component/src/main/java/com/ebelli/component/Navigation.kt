@@ -1,9 +1,12 @@
 package com.ebelli.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,21 +23,34 @@ fun RowScope.RickyAndMortyBarItem(
     label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true,
 ) {
-    NavigationBarItem(
+    BottomNavigationItem(
         selected = selected,
         onClick = onClick,
-        icon = if (selected) selectedIcon else icon,
-        modifier = modifier,
+        icon = {
+            Box(
+                modifier = Modifier
+                    .background(
+                        if (selected) Color.LightGray else Color.Transparent,
+                        shape = RoundedCornerShape(7.dp)
+                    )
+                    .padding(4.dp)
+            ) {
+                if (selected) {
+                    selectedIcon()
+                } else {
+                    icon()
+                }
+            }
+        },
+        modifier = if (!selected) modifier else modifier.background(
+            color = Color.LightGray,
+            shape = RoundedCornerShape(7.dp)
+        ),
         enabled = enabled,
         label = label,
         alwaysShowLabel = alwaysShowLabel,
-        colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = Color.Green,
-            unselectedIconColor = Color.Green,
-            selectedTextColor = Color.Green,
-            unselectedTextColor = Color.Green,
-            indicatorColor = Color.Green,
-        ),
+        selectedContentColor = Color.White,
+        unselectedContentColor = Color.Gray
     )
 }
 
@@ -43,10 +59,10 @@ fun RickyAndMortyBar(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit,
 ) {
-    NavigationBar(
+    BottomNavigation(
         modifier = modifier,
+        backgroundColor = Color.White,
         contentColor = Color.Magenta,
-        tonalElevation = 0.dp,
         content = content,
     )
 }

@@ -2,13 +2,6 @@ package com.ebelli.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Location(
-    @SerializedName("info")
-    val info: Info?,
-    @SerializedName("results")
-    val results: List<Result>
-)
-
 data class Info(
     @SerializedName("count")
     val count: Int,
@@ -20,19 +13,22 @@ data class Info(
     val prev: Any
 )
 
-data class Result(
-    @SerializedName("created")
-    val created: String,
-    @SerializedName("dimension")
-    val dimension: String,
-    @SerializedName("id")
+data class Character(
     val id: Int,
-    @SerializedName("name")
     val name: String,
-    @SerializedName("residents")
-    val residents: List<String>,
-    @SerializedName("type")
+    val status: String,
+    val species: String,
     val type: String,
-    @SerializedName("url")
+    val gender: String,
+    val origin: Location,
+    val location: Location,
+    val image: String,
+    val episode: List<String>,
+    val url: String,
+    val created: String
+)
+
+data class Location(
+    val name: String,
     val url: String
 )

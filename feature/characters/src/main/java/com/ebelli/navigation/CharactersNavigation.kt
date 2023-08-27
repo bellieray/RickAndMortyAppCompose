@@ -11,11 +11,11 @@ import org.w3c.dom.CharacterData
 const val charactersNavigationRoute = "characters_route"
 
 fun NavController.navigateToCharacter(navOptions: NavOptions? = null) {
-    this.navigate(charactersNavigationRoute, navOptions)
+    navigate(charactersNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.charactersScreen(onItemClicked: (CharacterData?) -> Unit) {
-    composable(charactersNavigationRoute) {
+fun NavGraphBuilder.charactersScreen(onItemClicked: (CharacterData?) -> Unit) =
+    composable(route = charactersNavigationRoute) {
         CharactersScreen(
             hiltViewModel(),
             onItemClicked = {
@@ -23,4 +23,3 @@ fun NavGraphBuilder.charactersScreen(onItemClicked: (CharacterData?) -> Unit) {
             }
         )
     }
-}
