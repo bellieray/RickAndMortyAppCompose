@@ -1,14 +1,14 @@
 @file:Suppress("UnstableApiUsage")
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
+
 android {
-    namespace = "com.ebelli.core.network"
+    namespace = "com.ebelli.database"
     compileSdk = 33
     defaultConfig {
         minSdk = 21
@@ -16,7 +16,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String","BASE_URL","\"https://rickandmortyapi.com/api/\"")
     }
 
     buildTypes {
@@ -50,28 +49,22 @@ android {
 }
 dependencies {
     implementation(project(":core:model"))
-    implementation(project(":core:common"))
-    implementation(libs.androidx.ktx)
-    implementation(libs.androidx.appcompat)
+    //Room
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
 
-    //coroutines
+    // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
-
-    // Retrofit
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.gson)
-    implementation(libs.okhttp.logging)
-    implementation(libs.okhttp)
+    //test
+    androidTestImplementation(libs.androidx.compose.ui.test)
+    //debugImplementation(libs.androidx.compose.ui.testManifest)
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 
     //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-
-
-
-    //Paging 3.0
-    implementation(libs.androidx.paging.compose)
-
 }
