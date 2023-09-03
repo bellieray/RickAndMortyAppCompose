@@ -1,7 +1,10 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -55,6 +58,7 @@ android {
 dependencies {
     implementation(project(":core:component"))
     implementation(project(":core:common"))
+    implementation(project(":core:network"))
     implementation(project(":feature:location"))
     implementation(project(":feature:search"))
     implementation(project(":feature:favorites"))
@@ -79,6 +83,7 @@ dependencies {
     implementation(libs.accompanist.navigation.animation)
     //Hilt
     implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     //trace

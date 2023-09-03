@@ -1,10 +1,8 @@
 package com.ebelli.usecase.character
 
-import com.ebelli.model.CharacterResponse
-import com.ebelli.result.NetworkResult
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import org.w3c.dom.CharacterData
 
 interface GetCharacterUseCase {
-    suspend operator fun invoke(pageNumber: Int): Flow<NetworkResult<CharacterResponse>>
+    suspend operator fun invoke(): Flow<PagingData<com.ebelli.model.Character>>
 }

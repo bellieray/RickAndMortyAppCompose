@@ -16,6 +16,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String","BASE_URL","\"https://rickandmortyapi.com/api/\"")
     }
 
     buildTypes {
@@ -67,4 +68,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+
+
+    //Paging 3.0
+    implementation(libs.androidx.paging.compose)
 }

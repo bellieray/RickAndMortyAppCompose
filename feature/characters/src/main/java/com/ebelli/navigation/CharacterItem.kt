@@ -1,45 +1,85 @@
 package com.ebelli.navigation
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.CrossFade
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.ebelli.model.Character
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CharacterItem(character: Character) {
+fun CharacterItem(
+    imageVector: ImageVector,
+    character: Character,
+    onFavoriteClicked: (Character) -> Unit,
+    onItemClicked: (Character) -> Unit
+) {
     Row(
-        modifier = Modifier.border(
-            width = 1.dp,
-            color = Color.Magenta,
-            shape = RoundedCornerShape(10.dp)
-        )
+        modifier = Modifier
+            .clickable { onItemClicked(character) }
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = Color.Gray)
+            .border(
+                border = BorderStroke(2.dp, Color.Cyan),
+                shape = RoundedCornerShape(10.dp)
+            )
+            .fillMaxWidth()
+            .padding(10.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        GlideImage(
-            model = character.image,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(60.dp)
-                .border(width = 1.dp, color = Color.Blue, shape = CircleShape),
-            contentDescription = "image"
-        )
+        Row {
+            GlideImage(
+                model = character.image,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .border(width = 1.dp, color = Color.Blue, shape = CircleShape),
+                contentDescription = "image",
+                transition = CrossFade
+            )
 
-        Spacer(modifier = Modifier.size(10.dp))
-
-        Column {
-            Text(text = character.name, color = Color.White, fontSize = 30.sp)
             Spacer(modifier = Modifier.size(10.dp))
-            Text(text = character.location.name, color = Color.White, fontSize = 20.sp)
+
+            Column(modifier = Modifier.wrapContentWidth()) {
+                Text(
+                    text = character.name,
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+
+                Spacer(modifier = Modifier.size(10.dp))
+                Text(
+                    text = character.location.name,
+                    color = Color.White,
+                    fontSize = 12.sp,
+                )
+            }
+        }
+        Box(contentAlignment = Alignment.TopEnd) {
+            Image(
+                imageVector = imageVector,
+                contentDescription = "",
+                modifier = Modifier
+                    .clickable { onFavoriteClicked(character) }
+            )
         }
     }
 }

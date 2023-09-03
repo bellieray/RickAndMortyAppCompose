@@ -5,25 +5,31 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.ebelli.navigation.CharacterItem
-import org.w3c.dom.CharacterData
 
 @Composable
 fun CharactersScreen(
     viewModel: CharactersViewModel,
-    onItemClicked: (CharacterData) -> Unit
+    onItemClicked: (com.ebelli.model.Character) -> Unit
 ) {
-    val scaffoldState = rememberScaffoldState()
+
     val viewState = viewModel.viewState.collectAsState().value
-    val characters = viewState.characters?.results
+    val characters = viewState.characters
+    val pagingItems: LazyPagingItems<com.ebelli.model.Character>? =
+        characters?.collectAsLazyPagingItems()
 
     Box(
         modifier = Modifier
@@ -32,12 +38,38 @@ fun CharactersScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.Red)
         ) {
-            LazyColumn(modifier = Modifier.background(color = Color.Yellow)) {
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 characters?.let {
-                    items(characters) { character ->
-                        CharacterItem(character = character)
+                    items(items = pagingItems!!) { character ->
+                        CharacterItem(character = character!!,
+                            imageVector = Icons.Default.Favorite,
+                            onFavoriteClicked = {
+
+                            },
+                            onItemClicked = {
+                                onItemClicked.invoke(it)
+                            }
+                        )
+                    }
+                    if (viewState.isLoading) {
+                        item {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .size(32.dp),
+                                    color = Color.Red
+                                )
+                            }
+                        }
                     }
                 }
             }

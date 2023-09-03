@@ -63,4 +63,5 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.constraintlayout.compose)
 }

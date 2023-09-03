@@ -1,10 +1,10 @@
 package com.ebelli
 
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.ebelli.utils.fromJson
 
 const val detailNavigationRoute = "detail_route"
 
@@ -13,7 +13,14 @@ fun NavController.navigateToDetail(navOptions: NavOptions? = null, characterDeta
 }
 
 fun NavGraphBuilder.detailScreen(onBackClicked: () -> Unit) {
-    composable(detailNavigationRoute) {
-        DetailScreen()
+    composable(
+        route = detailNavigationRoute.plus(
+            "?characterDetail={characterDetail}"
+        )
+    ) {
+        DetailScreen(
+            it.arguments?.getString("characterDetail")?.fromJson<com.ebelli.model.Character>(),
+            onBackButtonClicked = onBackClicked
+        )
     }
 }

@@ -56,10 +56,11 @@ dependencies {
 
     //test
     androidTestImplementation(libs.androidx.compose.ui.test)
-   // debugImplementation(libs.androidx.compose.ui.testManifest)
+    // debugImplementation(libs.androidx.compose.ui.testManifest)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
 
     //Hilt
     implementation(libs.hilt.android)
@@ -86,5 +87,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
 
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")
+
+    //Paging 3.0
+    implementation(libs.androidx.paging.compose)
 
 }

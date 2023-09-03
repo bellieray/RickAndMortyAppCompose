@@ -2,39 +2,35 @@ package com.ebelli
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ebelli.model.CharacterResponse
-import com.ebelli.result.NetworkResult
+import androidx.paging.PagingData
+import com.ebelli.model.Character
 import com.ebelli.usecase.character.GetCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CharactersViewModel @Inject constructor(private val getCharacterUseCase: GetCharacterUseCase) :
+class CharactersViewModel @Inject constructor(
+    private val getCharacterUseCase: GetCharacterUseCase
+) :
     ViewModel() {
     private val _charactersViewState: MutableStateFlow<CharactersViewState> =
         MutableStateFlow(CharactersViewState())
     val viewState = _charactersViewState.asStateFlow()
 
     init {
-        getAllCharacters(1)
+        getAllCharacters()
     }
 
-    private fun getAllCharacters(pageNumber: Int) {
+    private fun getAllCharacters() {
         viewModelScope.launch {
-            openState { it.copy(isLoading = false) }
-            getCharacterUseCase.invoke(pageNumber).onEach { result ->
-                when (result) {
-                    is NetworkResult.Success -> {
-                        _charactersViewState.update { it.copy(characters = result.data) }
-                    }
-                    else -> {}
-                }
-            }
+            openState { it.copy(isLoading = true) }
+            val pagedFlow = getCharacterUseCase.invoke()
+            openState { it.copy(characters = pagedFlow, isLoading = false) }
         }
     }
 
@@ -47,5 +43,5 @@ class CharactersViewModel @Inject constructor(private val getCharacterUseCase: G
 
 data class CharactersViewState(
     val isLoading: Boolean = false,
-    val characters: CharacterResponse? = null
+    val characters: Flow<PagingData<Character>>? = null
 )

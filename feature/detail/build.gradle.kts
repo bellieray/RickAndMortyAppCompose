@@ -1,4 +1,5 @@
 @file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.library")
     id("kotlin-kapt")
@@ -50,10 +51,12 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":core:domain"))
     implementation(project(":core:component"))
+    implementation(project(":core:network"))
+    implementation(project(":core:common"))
 
     //test
     androidTestImplementation(libs.androidx.compose.ui.test)
-   // debugImplementation(libs.androidx.compose.ui.testManifest)
+    // debugImplementation(libs.androidx.compose.ui.testManifest)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
@@ -81,4 +84,6 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")
+
 }

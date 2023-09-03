@@ -1,6 +1,7 @@
 package com.ebelli.di
 
 import androidx.compose.runtime.Stable
+import com.ebelli.core.network.BuildConfig
 import com.ebelli.retrofit.RickyAndMortyService
 import dagger.Module
 import dagger.Provides
@@ -10,9 +11,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
-@Stable
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -20,12 +21,12 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
-        apiUrl: String
-    ): Retrofit {
-        return Retrofit.Builder().baseUrl(apiUrl)
+        gsonConverterFactory: GsonConverterFactory
+    ): RickyAndMortyService {
+        val retrofit =  Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient).build()
+        return retrofit.create(RickyAndMortyService::class.java)
     }
 
     @Provides
@@ -36,21 +37,13 @@ object NetworkModule {
         OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor).build()
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         setLevel(HttpLoggingInterceptor.Level.BASIC)
-    }
-
-    @Provides
-    @Singleton
-    fun provideService(
-        retrofit: Retrofit
-    ): RickyAndMortyService {
-        return retrofit.create(RickyAndMortyService::class.java)
     }
 }
