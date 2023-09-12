@@ -49,7 +49,9 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:model"))
     implementation(project(":core:network"))
+    implementation(project(":core:database"))
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
@@ -68,4 +70,10 @@ dependencies {
 
     //Paging 3.0
     implementation(libs.androidx.paging.compose)
+
+    // Retrofit
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging)
+    implementation(libs.okhttp)
 }

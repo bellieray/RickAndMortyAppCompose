@@ -38,7 +38,7 @@ fun RickyAndMortyNavHost() {
     val navController = rememberAnimatedNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val currentDestination = navController.currentBackStackEntryAsState().value?.destination
+    val currentDestination = navBackStackEntry?.destination
     RickAndMortyScaffold(
         bottomBar = {
             BottomNavBar.values().forEach { navItem ->
@@ -51,18 +51,20 @@ fun RickyAndMortyNavHost() {
             }
         },
         backgroundColor = MaterialTheme.colors.onError
-    ) {
+    ) { paddingValues ->
         NavHost(
             navController = navController,
             startDestination = charactersNavigationRoute,
-            modifier = Modifier.padding(paddingValues = it)
+            modifier = Modifier.padding(paddingValues = paddingValues)
         ) {
-            charactersScreen { character ->
+            charactersScreen({ character ->
                 navController.navigateToDetail(characterDetail = character.toJson())
-            }
+            }, navController)
             detailScreen { navController.navigateUp() }
             searchScreen()
-            favoritesScreen()
+            favoritesScreen({ character ->
+                navController.navigateToDetail(characterDetail = character.toJson())
+            }, navController)
             locationScreen()
         }
     }
@@ -133,9 +135,7 @@ fun navigateToBottomNavDestination(bottomNavBar: BottomNavBar, navController: Na
         }
 
         when (bottomNavBar) {
-            BottomNavBar.CHARACTERS -> {
-                navController.navigateToCharacter(bottomNavOptions)
-            }
+            BottomNavBar.CHARACTERS -> navController.navigateToCharacter(bottomNavOptions)
             BottomNavBar.FAVORITES -> navController.navigateToFavorites(bottomNavOptions)
             BottomNavBar.LOCATION -> navController.navigateToLocation(bottomNavOptions)
             BottomNavBar.SEARCH -> navController.navigateToSearch(bottomNavOptions)

@@ -1,6 +1,9 @@
 package com.ebelli.di
 
-import com.ebelli.datasource.CharacterRemoteDataSource
+import com.ebelli.datasource.local.FavoriteLocalDataSource
+import com.ebelli.datasource.remote.CharacterRemoteDataSource
+import com.ebelli.repository.Favorite.FavoriteRepository
+import com.ebelli.repository.Favorite.FavoriteRepositoryImpl
 import com.ebelli.repository.character.CharacterRepository
 import com.ebelli.repository.character.CharacterRepositoryImpl
 import dagger.Module
@@ -14,7 +17,13 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun bindsCharacterRepository(characterRemoteDataSource: CharacterRemoteDataSource): CharacterRepository {
+    fun bindCharacterRepository(characterRemoteDataSource: CharacterRemoteDataSource): CharacterRepository {
         return CharacterRepositoryImpl(characterRemoteDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun bindFavoriteRepository(favoriteLocalDataSource: FavoriteLocalDataSource): FavoriteRepository {
+        return FavoriteRepositoryImpl(favoriteLocalDataSource)
     }
 }

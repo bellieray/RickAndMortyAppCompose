@@ -1,6 +1,5 @@
 package com.ebelli.model
 
-import android.location.Location
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -45,5 +44,10 @@ data class Character(
     val url: String,
     @ColumnInfo(name = "created")
     val created: String,
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
+)
+
+data class Location(
+    val name: String,
+    val url: String
 )

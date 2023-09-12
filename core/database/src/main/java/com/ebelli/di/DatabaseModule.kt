@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideCryptoDB(app: Application): CharacterDb {
+    fun provideCharacterDB(app: Application): CharacterDb {
         return Room.databaseBuilder(
             app, CharacterDb::class.java, "coin_db"
         ).build()
@@ -23,7 +23,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCoinDao(characterDB: CharacterDb): CharacterDao {
+    fun provideCharacterDao(characterDB: CharacterDb): CharacterDao {
         return characterDB.characterDao()
     }
 }

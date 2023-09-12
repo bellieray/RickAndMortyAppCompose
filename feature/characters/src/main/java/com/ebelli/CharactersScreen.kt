@@ -7,8 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -18,18 +16,26 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.ebelli.navigation.CharacterItem
+import com.ebelli.component.CharacterItem
 
 @Composable
 fun CharactersScreen(
-    viewModel: CharactersViewModel,
-    onItemClicked: (com.ebelli.model.Character) -> Unit
+    charactersViewModel: CharactersViewModel,
+    favoriteViewModel: FavoriteViewModel,
+    onItemClicked: (com.ebelli.model.Character) -> Unit,
 ) {
-
-    val viewState = viewModel.viewState.collectAsState().value
+    favoriteViewModel.getFavoriteList()
+    val viewState = charactersViewModel.viewState.collectAsState().value
     val characters = viewState.characters
+    val favorites = viewState.favorites
     val pagingItems: LazyPagingItems<com.ebelli.model.Character>? =
         characters?.collectAsLazyPagingItems()
+    charactersViewModel.setFavorites(favoriteViewModel.viewState.value.favoriteList)
+
+    pagingItems?.itemSnapshotList?.items?.map {
+        it.isFavorite = favorites?.contains(it) == true
+    }
+
 
     Box(
         modifier = Modifier
@@ -46,9 +52,8 @@ fun CharactersScreen(
                 characters?.let {
                     items(items = pagingItems!!) { character ->
                         CharacterItem(character = character!!,
-                            imageVector = Icons.Default.Favorite,
-                            onFavoriteClicked = {
-
+                            onFavoriteClicked = { clickedCharacter ->
+                                charactersViewModel.modifyFavorites(clickedCharacter)
                             },
                             onItemClicked = {
                                 onItemClicked.invoke(it)

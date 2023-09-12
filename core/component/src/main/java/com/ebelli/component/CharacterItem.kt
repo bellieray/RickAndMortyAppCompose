@@ -1,16 +1,18 @@
-package com.ebelli.navigation
+package com.ebelli.component
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,9 +25,9 @@ import com.ebelli.model.Character
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun CharacterItem(
-    imageVector: ImageVector,
+    isFavoriteItem: Boolean = false,
     character: Character,
-    onFavoriteClicked: (Character) -> Unit,
+    onFavoriteClicked: (Character) -> Unit = {},
     onItemClicked: (Character) -> Unit
 ) {
     Row(
@@ -73,13 +75,16 @@ fun CharacterItem(
                 )
             }
         }
-        Box(contentAlignment = Alignment.TopEnd) {
-            Image(
-                imageVector = imageVector,
-                contentDescription = "",
-                modifier = Modifier
-                    .clickable { onFavoriteClicked(character) }
-            )
+        if (isFavoriteItem.not()) {
+            Box(contentAlignment = Alignment.TopEnd) {
+                Image(
+                    imageVector = if (character.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .clickable {
+                            onFavoriteClicked(character)
+                        })
+            }
         }
     }
 }

@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -64,4 +65,5 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")
 }

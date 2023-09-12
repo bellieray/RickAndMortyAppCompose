@@ -51,8 +51,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":core:domain"))
     implementation(project(":core:component"))
-    implementation(project(":core:network"))
     implementation(project(":core:common"))
+    implementation(project(":core:model"))
 
     //test
     androidTestImplementation(libs.androidx.compose.ui.test)

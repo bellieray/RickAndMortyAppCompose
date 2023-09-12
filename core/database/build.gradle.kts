@@ -49,6 +49,8 @@ android {
 }
 dependencies {
     implementation(project(":core:model"))
+    implementation(libs.retrofit.gson)
+
     //Room
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
