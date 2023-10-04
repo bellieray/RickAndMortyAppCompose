@@ -16,18 +16,24 @@ class FavoriteViewModel @Inject constructor(private val getAllFavoritesUseCase: 
     ViewModel() {
     private val _favoriteViewState = MutableStateFlow(FavoriteViewState())
     val viewState = _favoriteViewState.asStateFlow()
-
+init {
+    getFavoriteList()
+}
     fun getFavoriteList() {
         viewModelScope.launch {
+            _favoriteViewState.update { it.copy(isLoading = true) }
             val response = getAllFavoritesUseCase.invoke()
             response.collect { result ->
                 when (result) {
                     is NetworkResult.Success -> {
                         _favoriteViewState.update {
-                            it.copy(favoriteList = result.data)
+                            it.copy(favoriteList = result.data, isLoading = false)
                         }
+
                     }
-                    else -> {}
+                    else -> {
+                        _favoriteViewState.update { it.copy(isLoading = false) }
+                    }
                 }
             }
         }
@@ -35,5 +41,6 @@ class FavoriteViewModel @Inject constructor(private val getAllFavoritesUseCase: 
 }
 
 data class FavoriteViewState(
-    val favoriteList: List<com.ebelli.model.Character>? = null
+    val favoriteList: List<com.ebelli.model.Character>? = null,
+    val isLoading: Boolean = false
 )

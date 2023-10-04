@@ -10,10 +10,8 @@ import com.ebelli.usecase.character.GetCharacterUseCase
 import com.ebelli.usecase.favorite.AddToFavoriteUseCase
 import com.ebelli.usecase.favorite.RemoveFromFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,20 +26,29 @@ class CharactersViewModel @Inject constructor(
         MutableStateFlow(CharactersViewState())
     val viewState = _charactersViewState.asStateFlow()
 
-    init {
-        getAllCharacters()
-    }
-
-    private fun getAllCharacters() {
+    fun getAllCharacters(favorites: List<Character>?) {
+        if (_charactersViewState.value.isLoading) return
+        openState { it.copy(isLoading = true) }
         viewModelScope.launch {
-            openState { it.copy(isLoading = true) }
+            delay(1000)
             val pagedFlow = getCharacterUseCase.invoke()
-            openState { it.copy(characters = pagedFlow, isLoading = false) }
+            openState {
+                it.copy(characters = pagedFlow.map {
+                    it.map { character ->
+                        Character(
+                            character,
+                            favorites?.contains(character) == true
+                        )
+                    }
+                }, isLoading = false)
+            }
         }
     }
 
-    fun setFavorites(list: List<com.ebelli.model.Character>?) {
-        _charactersViewState.update { it.copy(favorites = list) }
+    fun setFavorites(list: List<Character>?) {
+        viewModelScope.launch {
+            getAllCharacters(list)
+        }
     }
 
     fun modifyFavorites(character: Character) {
@@ -54,18 +61,35 @@ class CharactersViewModel @Inject constructor(
 
     private fun removeFromFavorites(character: Character) {
         viewModelScope.launch {
-            when (val response = removeFromFavoriteUseCase.invoke(character)) {
-                is NetworkResult.Success -> {}
-                is NetworkResult.Failed -> {}
+            _charactersViewState.update {
+                it.copy(isLoading = true)
+            }
+            when (removeFromFavoriteUseCase.invoke(character)) {
+                is NetworkResult.Success -> {
+                    _charactersViewState.update {
+                        it.copy(isLoading = false, updateFavoriteList = true)
+
+                    }
+                }
+                is NetworkResult.Failed -> {
+                    _charactersViewState.update {
+                        it.copy(isLoading = false, updateFavoriteList = false)
+                    }
+                }
             }
         }
     }
 
-    private fun addToFavorites(character: com.ebelli.model.Character) {
+    private fun addToFavorites(character: Character) {
         viewModelScope.launch {
+            openState { it.copy(isLoading = true) }
             when (val response = addToFavoriteUseCase.invoke(character)) {
-                is NetworkResult.Success -> {}
-                is NetworkResult.Failed -> {}
+                is NetworkResult.Success -> {
+                    openState { it.copy(isLoading = false, updateFavoriteList = true) }
+                }
+                is NetworkResult.Failed -> {
+                    openState { it.copy(isLoading = false, updateFavoriteList = false) }
+                }
             }
         }
     }
@@ -75,10 +99,15 @@ class CharactersViewModel @Inject constructor(
             block(it)
         }
     }
+
+    fun consumeUpdate() {
+        _charactersViewState.update { it.copy(updateFavoriteList = false) }
+    }
 }
 
 data class CharactersViewState(
     val isLoading: Boolean = false,
     val characters: Flow<PagingData<Character>>? = null,
-    val favorites: List<Character>? = null
+    val favorites: List<Character>? = null,
+    val updateFavoriteList: Boolean = false
 )

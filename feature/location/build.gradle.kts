@@ -1,7 +1,4 @@
 @file:Suppress("UnstableApiUsage")
-
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("com.android.library")
     id("kotlin-kapt")
@@ -53,6 +50,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":core:domain"))
     implementation(project(":core:component"))
+    implementation(project(":core:model"))
+    implementation(project(":core:common"))
 
     //test
     androidTestImplementation(libs.androidx.compose.ui.test)

@@ -13,8 +13,8 @@ fun NavController.navigateToLocation(navOptions: NavOptions? = null) {
     this.navigate(locationNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.locationScreen() {
+fun NavGraphBuilder.locationScreen(onItemClicked: (com.ebelli.model.Character) -> Unit,) {
     composable(locationNavigationRoute) {
-        LocationScreen()
+        LocationScreen(hiltViewModel(), onItemClicked)
     }
 }

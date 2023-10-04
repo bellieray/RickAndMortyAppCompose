@@ -11,4 +11,6 @@ class CharacterRemoteDataSourceImpl @Inject constructor(private val rickyAndMort
     override suspend fun getAllCharacters(pageNumber: Int): NetworkResult<CharacterResponse> {
         return networkCall { rickyAndMortyService.getAllCharacters(pageNumber) }
     }
+
+    override suspend fun getCharactersById(ids: List<String>): NetworkResult<List<com.ebelli.model.Character>>  = networkCall { rickyAndMortyService.getCharactersById(ids) }
 }

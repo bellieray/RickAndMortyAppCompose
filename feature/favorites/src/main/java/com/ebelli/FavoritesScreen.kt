@@ -30,7 +30,7 @@ fun FavoritesScreen(favoriteViewModel: FavoriteViewModel, onItemClicked: (Charac
             favorites?.let { characters ->
                 items(items = characters) { character ->
                     CharacterItem(character = character,
-                        isFavoriteItem = true,
+                        isFavoriteItem = false,
                         onItemClicked = {
                             onItemClicked.invoke(it)
                         }

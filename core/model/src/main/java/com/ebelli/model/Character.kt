@@ -45,7 +45,23 @@ data class Character(
     @ColumnInfo(name = "created")
     val created: String,
     var isFavorite: Boolean = false
-)
+) {
+    constructor(character: Character, isFavorite: Boolean) : this(
+        character.id,
+        character.name,
+        character.status,
+        character.species,
+        character.type,
+        character.gender,
+        character.origin,
+        character.location,
+        character.image,
+        character.episode,
+        character.url,
+        character.created,
+        isFavorite
+    )
+}
 
 data class Location(
     val name: String,

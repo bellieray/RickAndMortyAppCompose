@@ -8,11 +8,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -24,18 +27,23 @@ fun CharactersScreen(
     favoriteViewModel: FavoriteViewModel,
     onItemClicked: (com.ebelli.model.Character) -> Unit,
 ) {
-    favoriteViewModel.getFavoriteList()
     val viewState = charactersViewModel.viewState.collectAsState().value
+    val favoriteViewState = favoriteViewModel.viewState.collectAsState().value
     val characters = viewState.characters
-    val favorites = viewState.favorites
     val pagingItems: LazyPagingItems<com.ebelli.model.Character>? =
         characters?.collectAsLazyPagingItems()
-    charactersViewModel.setFavorites(favoriteViewModel.viewState.value.favoriteList)
-
-    pagingItems?.itemSnapshotList?.items?.map {
-        it.isFavorite = favorites?.contains(it) == true
+    LaunchedEffect(favoriteViewState.favoriteList) {
+        favoriteViewState.favoriteList?.let {
+            charactersViewModel.setFavorites(it)
+        }
     }
 
+    LaunchedEffect(viewState) {
+        if (viewState.updateFavoriteList) {
+            favoriteViewModel.getFavoriteList()
+            charactersViewModel.consumeUpdate()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -52,6 +60,7 @@ fun CharactersScreen(
                 characters?.let {
                     items(items = pagingItems!!) { character ->
                         CharacterItem(character = character!!,
+                            isFavoriteItem = true,
                             onFavoriteClicked = { clickedCharacter ->
                                 charactersViewModel.modifyFavorites(clickedCharacter)
                             },
@@ -60,25 +69,37 @@ fun CharactersScreen(
                             }
                         )
                     }
-                    if (viewState.isLoading) {
+                    if ((pagingItems.loadState.refresh == LoadState.Loading || pagingItems.loadState.append == LoadState.Loading) && pagingItems.itemCount != 0)
                         item {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
+                            Box(modifier = Modifier.fillMaxWidth()) {
                                 CircularProgressIndicator(
                                     modifier = Modifier
-                                        .size(32.dp),
+                                        .size(32.dp)
+                                        .align(Alignment.Center),
                                     color = Color.Red
                                 )
                             }
                         }
-                    }
                 }
             }
         }
+
+        if (viewState.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+                    .padding(16.dp),
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.Center),
+                    color = Color.Red
+                )
+            }
+        }
+
     }
 }
 

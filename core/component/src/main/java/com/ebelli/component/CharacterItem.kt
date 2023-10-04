@@ -75,7 +75,7 @@ fun CharacterItem(
                 )
             }
         }
-        if (isFavoriteItem.not()) {
+        if (isFavoriteItem) {
             Box(contentAlignment = Alignment.TopEnd) {
                 Image(
                     imageVector = if (character.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,

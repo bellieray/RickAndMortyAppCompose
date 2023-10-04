@@ -65,7 +65,9 @@ fun RickyAndMortyNavHost() {
             favoritesScreen({ character ->
                 navController.navigateToDetail(characterDetail = character.toJson())
             }, navController)
-            locationScreen()
+            locationScreen({ character ->
+                navController.navigateToDetail(characterDetail = character.toJson())
+            })
         }
     }
 }

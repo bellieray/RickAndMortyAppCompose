@@ -9,4 +9,7 @@ class CharacterRepositoryImpl @Inject constructor(private val characterRemoteDat
     CharacterRepository {
     override suspend fun getAllCharacters(pageNumber: Int): NetworkResult<CharacterResponse> =
         characterRemoteDataSource.getAllCharacters(pageNumber)
+
+    override suspend fun getCharactersById(ids: List<String>): NetworkResult<List<com.ebelli.model.Character>> =
+        characterRemoteDataSource.getCharactersById(ids)
 }
