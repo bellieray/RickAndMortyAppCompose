@@ -30,8 +30,7 @@ fun CharactersScreen(
     val viewState = charactersViewModel.viewState.collectAsState().value
     val favoriteViewState = favoriteViewModel.viewState.collectAsState().value
     val characters = viewState.characters
-    val pagingItems: LazyPagingItems<com.ebelli.model.Character>? =
-        characters?.collectAsLazyPagingItems()
+    val pagingItems: LazyPagingItems<com.ebelli.model.Character>? = characters?.collectAsLazyPagingItems()
     LaunchedEffect(favoriteViewState.favoriteList) {
         favoriteViewState.favoriteList?.let {
             charactersViewModel.setFavorites(it)

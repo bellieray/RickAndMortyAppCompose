@@ -61,7 +61,9 @@ fun RickyAndMortyNavHost() {
                 navController.navigateToDetail(characterDetail = character.toJson())
             }, navController)
             detailScreen { navController.navigateUp() }
-            searchScreen()
+            searchScreen {
+                navController.navigateToDetail(characterDetail = it.toJson())
+            }
             favoritesScreen({ character ->
                 navController.navigateToDetail(characterDetail = character.toJson())
             }, navController)

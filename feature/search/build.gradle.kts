@@ -51,6 +51,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":core:domain"))
     implementation(project(":core:component"))
+    implementation(project(":core:common"))
+    implementation(project(":core:model"))
+    implementation(project(":core:data"))
 
     //test
     androidTestImplementation(libs.androidx.compose.ui.test)
@@ -82,4 +85,7 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout.compose)
+
+    //Paging 3.0
+    implementation(libs.androidx.paging.compose)
 }

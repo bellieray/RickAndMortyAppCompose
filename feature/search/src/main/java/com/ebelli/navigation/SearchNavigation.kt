@@ -1,5 +1,6 @@
 package com.ebelli.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -12,8 +13,8 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
     this.navigate(searchNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.searchScreen() {
+fun NavGraphBuilder.searchScreen(onItemClicked : (com.ebelli.model.Character) -> Unit) {
     composable(searchNavigationRoute) {
-        SearchScreen()
+        SearchScreen(hiltViewModel(), onItemClicked)
     }
 }
