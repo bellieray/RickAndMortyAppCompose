@@ -8,8 +8,10 @@ Simple jetpack compose app with multi-module arch. While creating this app, insp
 </p>
 
 ## PREVIEW
-<video controls width="250"><source src="/docs/preview/rick-and-morty-video.mp4"></video>
-
+<figure class="video_container">
+  <iframe src="/docs/preview/rick-and-morty-video.mp4" frameborder="0" allowfullscreen="true"> 
+</iframe>
+</figure>
 
 ## Tech Stacks
 
