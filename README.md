@@ -8,7 +8,7 @@ Simple jetpack compose app with multi-module arch. While creating this app, insp
 </p>
 
 ## PREVIEW
-<video width="320" height="240" controls>  <source src="docs/preview/rick-and-morty-video.webm" type="video/webm">  </video>
+<video width="320" height="240" controls>  <source src="docs/preview/rick-and-morty-video.webm">  </video>
 
 
 ## Tech Stacks
