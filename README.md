@@ -113,8 +113,6 @@ This project uses many of the popular libraries, plugins and tools of the androi
 
 - Write UI test
 
-# Example text {style=text-align:center}
-
 ## Tech Stacks
 
 This project uses many of the popular libraries, plugins and tools of the android ecosystem.
